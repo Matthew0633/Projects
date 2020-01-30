@@ -49,10 +49,10 @@
 
 ## 3. Project Presentation
 
-<img src = '/slides/slide1.png'>
+<img src = '/slides/slide1.PNG'>
 
   
-![slide1](/slides/slide1.png)
+![slide1](/slides/slide1.PNG)
 ![slide2](./images/slide2.png)
 ![slide3](./images/slide3.png)
 ![slide4](/images/slide4.png)
