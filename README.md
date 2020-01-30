@@ -50,33 +50,30 @@
 ## 3. Project Presentation
 
 <img src = '/slides/slide1.PNG'>
-
-  
-![slide1](/slides/slide1.PNG)
-![slide2](./images/slide2.png)
-![slide3](./images/slide3.png)
-![slide4](/images/slide4.png)
-![slide5](/images/slide5.png)
-![slide6](/images/slide6.png)
-![slide7](/images/slide7.png)
-![slide8](/images/slide8.png)
-![slide9](/images/slide9.png)
-![slide10](/images/slide10.png)
-![slide11](/images/slide11.png)
-![slide12](/images/slide12.png)
-![slide13](/images/slide13.png)
-![slide14](/images/slide14.png)
-![slide15](/images/slide15.png)
-![slide16](/images/slide16.png)
-![slide17](/images/slide17.png)
-![slide18](/images/slide18.png)
-![slide19](/images/slide19.png)
-![slide20](/images/slide20.png)
-![slide21](/images/slide21.png)
-![slide22](/images/slide22.png)
-![slide23](/images/slide23.png)
-![slide24](/images/slide24.png)
-![slide25](/images/slide25.png)
-![slide26](/images/slide26.png)
-![slide27](/images/slide27.png)
-![slide28](/images/slide28.png)
+<img src = '/slides/slide2.PNG'>
+<img src = '/slides/slide3.PNG'>
+<img src = '/slides/slide4.PNG'>
+<img src = '/slides/slide5.PNG'>
+<img src = '/slides/slide6.PNG'>
+<img src = '/slides/slide7.PNG'>
+<img src = '/slides/slide8.PNG'>
+<img src = '/slides/slide9.PNG'>
+<img src = '/slides/slide10.PNG'>
+<img src = '/slides/slide11.PNG'>
+<img src = '/slides/slide12.PNG'>
+<img src = '/slides/slide13.PNG'>
+<img src = '/slides/slide14.PNG'>
+<img src = '/slides/slide15.PNG'>
+<img src = '/slides/slide16.PNG'>
+<img src = '/slides/slide17.PNG'>
+<img src = '/slides/slide18.PNG'>
+<img src = '/slides/slide19.PNG'>
+<img src = '/slides/slide20.PNG'>
+<img src = '/slides/slide21.PNG'>
+<img src = '/slides/slide22.PNG'>
+<img src = '/slides/slide23.PNG'>
+<img src = '/slides/slide24.PNG'>
+<img src = '/slides/slide25.PNG'>
+<img src = '/slides/slide26.PNG'>
+<img src = '/slides/slide27.PNG'>
+<img src = '/slides/slide28.PNG'>
