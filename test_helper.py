@@ -1,15 +1,7 @@
-from tensorflow.keras import models
-from tensorflow.keras.utils import to_categorical
+from glob import glob
+
 from keras.preprocessing.image import load_img, img_to_array
 from IPython.display import display
-from IPython.core.display import Image
-from keras.models import Sequential
-import tensorflow as tf
-import matplotlib.pyplot as plt
-import numpy as np
-import os
-import cv2
-from playsound import playsound
 
 def load_prep_img(file):
     image = load_img(file)
@@ -23,5 +15,7 @@ def load_prep_img(file):
     image_arr_dm4 = image_arr_dm3.reshape((1, IM_WIDTH, IM_HEIGHT, 3))
     return image_arr_dm4
 
-if __name__ == __main__:
-    pass
+if __name__ == '__main__':
+    sample_path = glob('test_samples/*.bmp')[0]
+    image_arr_dm4 = load_prep_img(sample_path)
+    print(image_arr_dm4.shape)
