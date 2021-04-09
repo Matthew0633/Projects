@@ -1,33 +1,44 @@
-import tensorflow as tf
+import os
 
-from models import pretrained_baby_CNN
+import tensorflow as tf
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
+
+from models import Baby_CNN, Pretrained_baby_CNN
 from train_helper import viz_history
+from preprocessing import preprocess_data
 
 
 def main(config):
       CASE = 'door' # door, eat, fall, kitchen
 
-      TRAIN_DIR = 'videos/images/1/train/'
-      TEST_DIR = 'videos/images/1/train/'
-
       LR = config['train']['learning_rate']
-      BATCH_SIZE = config['train']['batch_size']
+      BS = config['train']['batch_size']
 
-      model = pretrained_baby_CNN(config)
+      train_generator, val_generator = preprocess_data(config, is_test = False, from_dir = True)
 
-      print(model.summary())
+      #model = Baby_CNN(config)
+      model = Pretrained_baby_CNN(config)
 
-      model.compile(loss = 'binary_crossentropy', optimizer = keras.optimizers.Adam(lr = LR), metrics = ['accuracy'])
+      print(model.build_summary())
 
-      print(model.summary())
+      model.compile(loss = 'binary_crossentropy', optimizer = tf.keras.optimizers.Adam(lr = LR), metrics = ['accuracy'])
+
+      # callbacks
+      earlystopping = EarlyStopping(monitor='val_acc', patience=10, verbose=1)
+      LRonPlateau = ReduceLROnPlateau(monitor='val_acc', factor=0.5, patience=2,
+                                    verbose=1, mode='max', min_lr=0.00001)
+      checkpoint = ModelCheckpoint('best_model1.h5', monitor='val_acc', verbose=1,
+                                   save_best_only=True, save_weights_only=True)
+
+      callbacks = [earlystopping, LRonPlateau, checkpoint]
 
       history = model.fit_generator(
             train_generator,
             steps_per_epoch = (train_generator.samples / train_generator.batch_size) ,
             epochs = 10,
-            validation_data = test_generator,
-            validation_steps = test_generator.samples / test_generator.batch_size,
-            verbose = 1)
+            validation_data = val_generator,
+            validation_steps = val_generator.samples / BS,
+            verbose = 1, callbacks=callbacks)
 
       # show train history
       viz_history(history)
@@ -43,9 +54,14 @@ if __name__ == '__main__':
       
 
       # temp_config
-      config = {'general': {'IM_WIDTH': 500, 'IM_HEIGHT': 275},
-                'model': {'class_num': 2,
-                          'n_block': 5,
+      config = {'general': {'labels': ['difficult..','safe','danger'],
+                            'img_w': 500, 'img_h': 275,
+                            'train_dir': 'videos/images/1/train/',
+                            'test_dir': 'videos/images/1/train/',
+                            'train_csv_dir': './csvdata',
+                            'test_csv_dir': './csvdata'
+                            },
+                'model': {'n_block': 5,
                           'kernel_size': (3, 3),
                           'pool_size': (2, 2),
                           'n_filters': [32, 64, 128],
