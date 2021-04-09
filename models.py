@@ -16,7 +16,7 @@ from keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
 
-class baby_CNN(tf.keras.Model):
+class Baby_CNN(tf.keras.Model):
     """ subclass of tf.keras.Model
 
         Argument:
@@ -24,19 +24,23 @@ class baby_CNN(tf.keras.Model):
 
     """
     def __init__(self, config: dict):
-        super(baby_CNN, self).__init__()
+        super(Baby_CNN, self).__init__()
 
         # hyperparameters
-        self.w, self.h = config['IM_WIDTH'], config['IM_HEIGHT']
-        self.kernel_size, self.pool_size = config['kernel_size'], config['pool_size']
-        self.n1_filter, self.n2_filter, self.n3_filter = config['filter_nums']
-        self.n_dense_hidden = config['n_dense_hidden']
-        self.dropout_conv, self.dropout_dense = config['dropout_conv'], config['dropout_dense']
-        self.n_block = config['n_block']
+        self.w, self.h = config['general']['img_w'], config['general']['img_h']
+        self.kernel_size = config['model']['kernel_size']
+        self.pool_size = config['model']['pool_size']
+        self.n1_filter, self.n2_filter, self.n3_filter = config['model']['n_filters']
+        self.n_dense_hidden = config['model']['n_dense_hidden']
+        self.dropout_conv = config['model']['dropout_conv']
+        self.dropout_dense = config['model']['dropout_dense']
+        self.n_block = config['model']['n_block']
+        self.class_num = len(config)
 
         # layers
-        self.CNNinput = tf.keras.layers.Conv2D(filters=self.n1_filter, kernel_size=5, activation=tf.nn.relu,
-                                            padding='SAME', input_shape=(self.w, self.h, 3))
+        self.input_layer = tf.keras.layers.Input((self.w, self.h, 3))
+        self.cnninput = tf.keras.layers.Conv2D(filters=self.n1_filter, kernel_size=5, activation=tf.nn.relu,
+                                            padding='SAME')
         self.cnn = tf.keras.layers.Conv2D(filters=self.n2_filter, kernel_size=5, activation=tf.nn.relu,
                                           padding='SAME')
         self.maxpool = tf.keras.layers.MaxPool2D(padding='SAME')
@@ -44,10 +48,10 @@ class baby_CNN(tf.keras.Model):
         self.dense = tf.keras.layers.Dense(self.n_dense_hidden, activation=tf.nn.relu)
         self.dropout_conv = tf.keras.layers.Dropout(self.dropout_conv)
         self.dropout_dense = tf.keras.layers.Dropout(self.dropout_dense)
-        self.output = tf.keras.layers.Dense(self.class_num, activation='softmax')
+        self.outputs = tf.keras.layers.Dense(self.class_num, activation='softmax')
 
     def call(self, x):
-        x = self.CNNinput(x)
+        x = self.cnninput(x)
         for _ in range(self.n_block):
             x = self.cnn(x)
             x = self.maxpool(x)
@@ -55,13 +59,18 @@ class baby_CNN(tf.keras.Model):
         x = self.flatten(x)
         x = self.dense(x)
         x = self.dropout_dense(x)
-        x = self.output(x)
+        x = self.outputs(x)
 
         return x
 
-class pretrained_baby_CNN(baby_CNN):
+    def build_summary(self):
+        built_model = tf.keras.Model(inputs=[self.input_layer], outputs=[model.call(self.input_layer)])
+        print(built_model.summary())
+
+
+class Pretrained_baby_CNN(Baby_CNN):
     def __init__(self, config: dict, pretrained_model: str = 'vgg19'):
-        super(pretrained_baby_CNN, self).__init__()
+        super(Pretrained_baby_CNN, self).__init__()
 
         self.model_names = ['resnet50', 'vgg19', 'inceptionresnet19', 'densenet', 'nasnet', 'mohbilenetv2']
 
@@ -83,8 +92,6 @@ class pretrained_baby_CNN(baby_CNN):
         self.model_list = [self.resnet50, self.vgg19, self.inceptionresnet19, self.densenet, self.nasnet, self.mohbilenetv2]
         self.pretrained_layer = self.models[self.model_list.index(pretrained_model)]
 
-
-
     def call(self, x):
         x = self.pretrained_layer(x)
         x = self.flatten(x)
@@ -94,21 +101,23 @@ class pretrained_baby_CNN(baby_CNN):
         return x
 
 if __name__ == '__main__':
-    config = {
-        'IM_WIDTH': 500,
-        'IM_HEIGHT': 275,
-        'class_num': 2,
-        'n_block': 5,
-        'kernel_size': (3, 3),
-        'pool_size': (2, 2),
-        'n_filters': [32, 64, 128],
-        'n_dense_hidden': 1024,
-        'dropout_conv': 0.3,
-        'dropout_dense': 0.3
-    }
+    config = {'general': {'img_w': 500, 'img_h': 275,
+                          'train_dir': 'videos/images/1/train/',
+                          'test_dir': 'videos/images/1/train/',
+                          'train_csv_dir': './csvdata',
+                          'test_csv_dir': './csvdata'
+                          },
+              'model': {'n_block': 5,
+                        'kernel_size': (3, 3),
+                        'pool_size': (2, 2),
+                        'n_filters': [32, 64, 128],
+                        'n_dense_hidden': 1024,
+                        'dropout_conv': 0.3,
+                        'dropout_dense': 0.3},
+              'train': {'learning_rate': 0.001, 'batch_size': 256}
+              }
 
-    model = baby_CNN(config)
-    model = pretrained_baby_CNN(config, pretrained_model='vgg19')
+    model = Baby_CNN(config)
+    model = Pretrained_baby_CNN(config, pretrained_model='vgg19')
 
-    model = model(data)
-    print(model.summary())
+    model.build_summary()
