@@ -61,9 +61,9 @@ def main(config):
 if __name__ == '__main__':
     # argparse -> config
     parser = argparse.ArgumentParser(description='Test parser')
-    parser.add_argument('-testdir', '--test_dir', help='test_dir')
+    parser.add_argument('-testdir', '--test_dir', help='test_files_dir')
     parser.add_argument('-v', '--voice_dir', help='voice_dir')
-    parser.add_argument('-v', '--model_dir', help='model_dir')
+    parser.add_argument('-p', '--model_dir', help='pretrained_model_dir')
 
     # generate config
     config = get_config(parser.args, is_train = False)

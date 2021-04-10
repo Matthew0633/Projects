@@ -7,7 +7,8 @@ from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCh
 from models import Baby_CNN, Pretrained_baby_CNN
 from train_helper import viz_history
 from preprocessing import preprocess_data
-from utils  import get_config
+
+from utils  import read_json, get_config
 
 def main(config):
     CASE = 'door' # door, eat, fall, kitchen
@@ -53,13 +54,12 @@ def main(config):
 if __name__ == '__main__':
     # argparse -> config
     parser = argparse.ArgumentParser(description='Train parser')
+    parser.add_argument('-c', '--config_file', help='config_file')
     parser.add_argument('-l', '--labels', help='labels', action='append')
     parser.add_argument('-w', '--img_w', help='img_w')
     parser.add_argument('-h', '--img_h', help='img_h')
     parser.add_argument('-traindir', '--train_dir', help='train_dir')
-    parser.add_argument('-testdir', '--test_dir', help='test_dir')
     parser.add_argument('-traincsv', '--train_csv_dir', help='train_csv_dir')
-    parser.add_argument('-testcsv', '--test_csv_dir', help='test_csv_dir')
     parser.add_argument('-b', '--n_block', help='n_block')
     parser.add_argument('-k', '--kernel_size', help='kernel_size')
     parser.add_argument('-p', '--pool_size', help='pool_size')
@@ -69,28 +69,13 @@ if __name__ == '__main__':
     parser.add_argument('-dr_d', '--dropout_dense', help='dropout_dense')
     parser.add_argument('-lr', '--learning_rate', help='learning_rate')
     parser.add_argument('-bs', '--batch_size', help='batch_size')
-
-
-    # # temp_config
-    # config = {'general': {'labels': ['difficult..','safe','danger'],
-    #                     'img_w': 500, 'img_h': 275,
-    #                     'train_dir': 'videos/images/1/train/',
-    #                     'test_dir': 'videos/images/1/train/',
-    #                     'train_csv_dir': './csvdata',
-    #                     'test_csv_dir': './csvdata'
-    #                     },
-    #         'model': {'n_block': 5,
-    #                   'kernel_size': (3, 3),
-    #                   'pool_size': (2, 2),
-    #                   'n_filters': [32, 64, 128],
-    #                   'n_dense_hidden': 1024,
-    #                   'dropout_conv': 0.3,
-    #                   'dropout_dense': 0.3},
-    #         'train': {'learning_rate': 0.001, 'batch_size': 256}
-    #         }
+    args = parser.parse_args()
 
     # generate config
-    config = get_config(parser.parse_args(), is_train = True)
+    if args.config_file:
+        config = read_json(args)
+    else:
+        config = get_config(args, is_train = True)
 
     # run train
     main(config)
