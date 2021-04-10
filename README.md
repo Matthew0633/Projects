@@ -1,7 +1,6 @@
 # <br/> 영유아 위험상황 탐지 및 경고 모델('Infant risk detection and warning model')
-## '고객 데이터 분석 시스템 구축을 위한 빅데이터 전문가 양성과정' 3차 PROJECT
 
-## 1. '고객 데이터 분석 시스템 구축을 위한 빅데이터 전문가 양성과정'
+## '고객 데이터 분석 시스템 구축을 위한 빅데이터 전문가 양성과정' PROJECT
   
 서울산업진흥원(SBA)과 한국능률협회가 공동으로 진행한 교육인 '고객 데이터 분석 시스템 구축을 위한 빅데이터 전문가 양성과정'는 8월 말부터 11월 중순까지 진행되었으며, 파이썬과 머신러닝, 딥러닝 뿐만 아니라 R과 리눅스, SQL 등에 대해 다양한 교육을 진행하였습니다.
 
@@ -9,7 +8,7 @@
 - [SBA-능률협회, '빅데이터 전문가 양성과정' 절찬 진행중](https://m.etnews.com/20191115000103?obj=Tzo4OiJzdGRDbGFzcyI6Mjp7czo3OiJyZWZlcmVyIjtOO3M6NzoiZm9yd2FyZCI7czoxMzoid2ViIHRvIG1vYmlsZSI7fQ%3D%3D)
 - [SBA-능률협회, 빅데이터 신사업 기획자 양성](https://www.dailygrid.net/news/articleView.html?idxno=306146)
 
-## 2. 영유아 위험상황 탐지 및 경고 모델('Detecting Danger of Baby and Warning Model')  
+## 영유아 위험상황 탐지 및 경고 모델(Detecting Danger of Baby and Warning Model)  
 **설명 하단에 발표자료 포함**  
   
 팀원 : 박민형, 김찬용, 정희철  
@@ -42,12 +41,52 @@
 [Google Cloud](https://cloud.google.com/)
 
   
-**[중요 파일]**  
-- `01. Modeling and Fitting CNN models(including others)` : CNN과 keras app의 다양한 CNN모델들을 이용하여 Modeling을 진행하였습니다.
-  
-- `02. Detecting Danger of Baby and Warning Model` : '집안에 카메라가 아이를 상시 촬영하고 있다는 가정하에' 학습되지 않은 특정 테스트 이미지를 주어 위험상황 탐지와 엄마의 음성 출력 기능 수행을 구현한 코드입니다.
-  
-## 3. Project Presentation
+**[Quick Start]**  
+1. Train : run train.py
+
+```
+python train.py config.json
+```
+
+2. Test : run test_main.py
+```
+python test_main.py -v warning_voice -p pretrained_model -testdir test_sample
+```
+
+### Usage
+
+```
+usage: train.py [-c config path] [-l labels] [-w img_w] [-h img_h] [-traindir traindir] [-traincsv traincsv]
+                     [-b n_conv_block] [-k n_kernel] [-f n_filter] [-d n_dense_hidden]
+                     [-dr_c conv_dropout] [-dr_d dense_dropuout]
+                     [-lr learning rate] [-bs batch size]
+
+positional arguments:
+  -l labels                                     Labels (append)
+  -w img_w, -h img_h                            Video output path
+  -traindir traindir, -traincsv traincsv        Directory of train file and csv
+  -b n_conv_block, -k n_kernel                  Numbers of conv_block and kernel sizes
+  -f n_filter, -d n_dense_hidden                Numbers of filters(append) and dense_hidden
+  -dr_c conv_dropout, -dr_d dense_dropuout      Dropout_rate of conv, dense layer
+  -lr learning rate, -bs batch size             Learning rate and batch size
+
+optional arguments:
+  -c config path        use saved config file for train (Quick start), if True, not need other arguments
+```
+---
+
+```
+usage: test_main.py [-testdir testdir] [-v voice_dir] 
+                    [-p pretrained_model_dir]
+                    
+positional arguments:
+  -testdir testdir            test samples path
+  -v voice_dir                warning voice files path
+  -p pretrained_model_dir     pretrained model path
+``` 
+
+
+## Project Presentation
 
 <img src = '/slides/slide1.PNG'>
 <img src = '/slides/slide2.PNG'>
