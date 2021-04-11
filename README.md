@@ -8,7 +8,7 @@
 - [SBA-능률협회, '빅데이터 전문가 양성과정' 절찬 진행중](https://m.etnews.com/20191115000103?obj=Tzo4OiJzdGRDbGFzcyI6Mjp7czo3OiJyZWZlcmVyIjtOO3M6NzoiZm9yd2FyZCI7czoxMzoid2ViIHRvIG1vYmlsZSI7fQ%3D%3D)
 - [SBA-능률협회, 빅데이터 신사업 기획자 양성](https://www.dailygrid.net/news/articleView.html?idxno=306146)
 
-## 영유아 위험상황 탐지 및 경고 모델(Detecting Danger of Baby and Warning Model)  
+## 영유아 위험상황 탐지 및 경고 모델(Infant risk detection and warning model)  
 **설명 하단에 발표자료 포함**  
   
 팀원 : 박민형, 김찬용, 정희철  
